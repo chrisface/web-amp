@@ -1,1 +1,3 @@
-console.log("Hello World!");
+angular.module('webAmp.audio.nodes', []);
+angular.module('webAmp.audio', ['webAmp.audio.nodes']);
+angular.module('webAmp', ['webAmp.audio']);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html >
+<html ng-app="webAmp" ng-strict-di>
   <head>
     <meta charset="utf-8">
     <base href="/">
@@ -7,6 +7,22 @@
     <script src="/combined/application.js"></script>
   </head>
   <body>
-  Hello World!
+
+    <div ng-controller="dashboardCtrl">
+
+    <button ng-click="createGainNode()">Create Gain Node</button>
+    <button ng-click="createDelayNode()">Create Delay Node</button>
+
+    <h3>Audio Nodes:</h3>
+
+    <ul>
+      <li ng-repeat="audioNode in audioNodes">
+        {{audioNode.name}} Connected to {{audioNode.connectedNode.name}}
+      </li>
+    </ul>
+
+
+    </div>
+
   </body>
 </html>
