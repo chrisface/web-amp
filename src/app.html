@@ -17,10 +17,18 @@
 
     <ul>
       <li ng-repeat="audioNode in audioNodes">
-        {{audioNode.name}} Connected to {{audioNode.connectedNode.name}}
+        {{audioNode.name}} Connected to
+        <ul>
+          <li>
+          <select ng-options="node.name for node in audioNodes" ng-model="audioNode.connectedNode" ng-model-options="{ getterSetter: true}">
+            <option value="">-- select a node to connect to --</option>
+          </select>
+          Value: <input type="text" ng-model="audioNode.value" ng-model-options="{ getterSetter: true}"></input>
+          </li>
+        </ul>
+
       </li>
     </ul>
-
 
     </div>
 

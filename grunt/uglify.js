@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     development: {
       options: {
         sourceMap: true,
+        sourceMapIncludeSources: true,
         mangle: false,
         beautify: true
       },
