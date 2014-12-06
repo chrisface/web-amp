@@ -10,8 +10,10 @@
 
     <div ng-controller="dashboardCtrl">
 
-    <button ng-click="createGainNode()">Create Gain Node</button>
+    <button ng-click="createInputNode()">Create Input Node</button>
     <button ng-click="createDelayNode()">Create Delay Node</button>
+    <button ng-click="createGainNode()">Create Gain Node</button>
+    <button ng-click="createOutputNode()">Create Output Node</button>
 
     <h3>Audio Nodes:</h3>
 
@@ -20,7 +22,7 @@
         {{audioNode.name}} Connected to
         <ul>
           <li>
-          <select ng-options="node.name for node in audioNodes" ng-model="audioNode.connectedNode" ng-model-options="{ getterSetter: true}">
+          <select ng-options="node.name for node in availableConnections(audioNode)" ng-model="audioNode.connectedNode" ng-model-options="{ getterSetter: true}">
             <option value="">-- select a node to connect to --</option>
           </select>
           Value: <input type="text" ng-model="audioNode.value" ng-model-options="{ getterSetter: true}"></input>

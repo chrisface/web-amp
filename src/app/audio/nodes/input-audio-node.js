@@ -16,7 +16,7 @@ angular.module('webAmp.audio.nodes')
     };
 
     InputAudioNode.prototype.onInputCaptureFailure = function(error){
-      this.failureCallback.apply(this.callbackScope, error);
+      this.failureCallback.apply(this.callbackScope, [error]);
     };
 
     InputAudioNode.prototype.captureInput = function(successCallback, failureCallback, scope){

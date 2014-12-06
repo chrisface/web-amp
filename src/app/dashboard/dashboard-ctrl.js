@@ -1,29 +1,31 @@
 angular.module('webAmp')
 .controller('dashboardCtrl', [
-  '$scope', 'audioContext', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode',
-  function($scope, audioContext, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode){
+  '$scope', 'SoundBoardService',
+  function($scope, SoundBoardService){
 
-    $scope.audioNodes = [];
+    $scope.audioNodes = SoundBoardService.audioNodes;
+
+    SoundBoardService;
 
     $scope.createGainNode = function() {
-      var node = new GainAudioNode();
-      $scope.audioNodes.push(node);
+      SoundBoardService.createGainNode();
     };
 
     $scope.createDelayNode = function() {
-      var node = new DelayAudioNode();
-      $scope.audioNodes.push(node);
+      SoundBoardService.createDelayNode();
     };
 
-    var audioInput = new InputAudioNode();
-    var audioOutput = new OutputAudioNode();
+    $scope.createInputNode = function() {
+      SoundBoardService.createInputNode();
+    };
 
-    $scope.audioNodes.push(audioOutput);
+    $scope.createOutputNode = function() {
+      SoundBoardService.createOutputNode();
+    };
 
-    // Capture the input from the user
-    audioInput.captureInput(function(audioInput){
-      $scope.audioNodes.push(audioInput);
-    } ,null, this);
+    $scope.availableConnections = function(audioNode) {
+      return SoundBoardService.availableConnections(audioNode);
+    }
 
   }
 ]);;
