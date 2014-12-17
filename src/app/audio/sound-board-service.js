@@ -6,11 +6,15 @@ angular.module('webAmp')
     this.audioNodes = [];
 
     this.createGainNode = function() {
-      this.audioNodes.push(new GainAudioNode());
+      var node = new GainAudioNode();
+      this.audioNodes.push(node);
+      return node;
     };
 
     this.createDelayNode = function() {
-      this.audioNodes.push(new DelayAudioNode());
+      var node = new DelayAudioNode();
+      this.audioNodes.push(node);
+      return node;
     };
 
     this.createInputNode = function() {
@@ -26,6 +30,7 @@ angular.module('webAmp')
         },
         this
       );
+      return audioInput;
     };
 
     this.availableConnections = function(audioNode){
@@ -33,7 +38,9 @@ angular.module('webAmp')
     };
 
     this.createOutputNode = function() {
-      this.audioNodes.push(new OutputAudioNode());
+      var node = new OutputAudioNode();
+      this.audioNodes.push(node);
+      return node;
     };
 
   }
