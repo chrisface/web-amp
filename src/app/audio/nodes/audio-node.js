@@ -6,23 +6,7 @@ angular.module('webAmp.audio.nodes')
     // This is the abstract class for all audio nodes
     var AudioNode = function(){
       this.name = "NO NAME";
-      this._connectedNode = null;
-    };
-
-    AudioNode.prototype.connectedNode = function(newConnectedNode){
-      if (angular.isDefined(newConnectedNode)){
-        this._connectedNode = newConnectedNode;
-        if (this._connectedNode === null){
-          this.disconnect()
-        }
-        else{
-          this.connect(this._connectedNode);
-        }
-        return null;
-      }
-      else{
-        return this._connectedNode;
-      }
+      this.connectedNodes = [];
     };
 
     AudioNode.prototype.value = function(newValue){
@@ -43,8 +27,8 @@ angular.module('webAmp.audio.nodes')
     };
 
     AudioNode.prototype.connect = function(audioNode){
-      this._connectedNode = audioNode;
       this.node.connect(audioNode.getAudioNode());
+      this.connectedNodes.push(audioNode);
     };
 
     AudioNode.prototype.disconnect = function(audioNode){
