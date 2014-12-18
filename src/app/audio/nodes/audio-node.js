@@ -1,12 +1,12 @@
 angular.module('webAmp.audio.nodes')
 .factory('AudioNode', [
-  '$rootScope', 'audioContext',
-  function($scope, audioContext){
+  '$rootScope', 'audioContext', 'AudioNodeConnection',
+  function($scope, audioContext, AudioNodeConnection){
 
     // This is the abstract class for all audio nodes
     var AudioNode = function(){
       this.name = "NO NAME";
-      this.connectedNodes = [];
+      this.connections = [];
     };
 
     AudioNode.prototype.value = function(newValue){
@@ -27,8 +27,8 @@ angular.module('webAmp.audio.nodes')
     };
 
     AudioNode.prototype.connect = function(audioNode){
-      this.node.connect(audioNode.getAudioNode());
-      this.connectedNodes.push(audioNode);
+      var connection = new AudioNodeConnection(this, audioNode);
+      this.connections.push(connection);
     };
 
     AudioNode.prototype.disconnect = function(audioNode){
