@@ -51,5 +51,8 @@ angular.module('webAmp')
       return node;
     };
 
+    this.addNode = function(audioNode) {
+      this.audioNodes.push(audioNode);
+    };
   }
 ]);
