@@ -46,11 +46,7 @@ angular.module('webAmp')
       var first = SoundBoardService.audioNodes[0];
       var second = SoundBoardService.audioNodes[1];
       SoundBoardService.connectNodes(first, second);
-
-      console.log(first.connections);
-      $scope.soundboardUI.drawAudioNodeConnections();
     };
-
   }
 ]);;
 

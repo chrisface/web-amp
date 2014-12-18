@@ -15,7 +15,6 @@ angular.module('webAmp.audio.nodes')
     DelayAudioNode.prototype = new AudioNode();
 
     DelayAudioNode.prototype.setTheValue = function(value){
-      console.log(value);
       this.node.delayTime.value = value;
     };
 

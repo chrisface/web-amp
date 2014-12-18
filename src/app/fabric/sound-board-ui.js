@@ -1,13 +1,14 @@
 angular.module('fabric')
 .factory('SoundBoardUI', [
-  '$rootScope', 'FabricCanvas', 'AudioNodeUI',
-  function($rootScope, FabricCanvas, AudioNodeUI){
+  '$rootScope', 'FabricCanvas', 'AudioNodeUI', 'AudioNodeConnectionUI',
+  function($rootScope, FabricCanvas, AudioNodeUI, AudioNodeConnectionUI){
 
     var SoundBoardUI = function(soundBoard){
-      this.scope = $rootScope.$new();
-      this.scope.audioNodeUis = [];
+      var scope = this;
+      this.audioNodeUis = [];
+      this.audioNodeConnectionUis = [];
 
-      this.scope.backround = new fabric.Rect({
+      this.backround = new fabric.Rect({
         stroke: 'red',
         strokeWidth: 5,
         fill: '#fff',
@@ -15,20 +16,39 @@ angular.module('fabric')
         height: 500
       });
 
-      this.scope.$on("audioNodeAdded", this.onAudioNodeAdded);
+      $rootScope.$on("audioNodeAdded", function(){
+        scope.onAudioNodeAdded.apply(scope, arguments);
+      });
+
+      $rootScope.$on("audioNodeConnected", function(){
+        scope.onAudioNodeConnected.apply(scope, arguments);
+      });
 
       FabricCanvas.add(this);
     };
 
     SoundBoardUI.prototype.onAudioNodeAdded = function(event, audioNode){
       var audioNodeUI = new AudioNodeUI(audioNode);
-      console.log(audioNode);
-      event.currentScope.audioNodeUis.push(audioNodeUI);
+
+      this.audioNodeUis.push(audioNodeUI);
       FabricCanvas.add(audioNodeUI);
     };
 
+    SoundBoardUI.prototype.onAudioNodeConnected = function(event, audioNodeConnection){
+      var fromNode = this.getAudioNodeUIForAudioNode(audioNodeConnection.from);
+      var toNode = this.getAudioNodeUIForAudioNode(audioNodeConnection.to);
+
+      var audioNodeConnectionUI = new AudioNodeConnectionUI(audioNodeConnection, fromNode, toNode);
+      this.audioNodeConnectionUis.push(audioNodeConnectionUI);
+      FabricCanvas.add(audioNodeConnectionUI);
+    };
+
     SoundBoardUI.prototype.getFabricComponent = function(){
-      return this.scope.backround;
+      return this.backround;
+    };
+
+    SoundBoardUI.prototype.getAudioNodeUIForAudioNode = function(audioNode){
+      return _.find(this.audioNodeUis, {'audioNode': audioNode});
     };
 
     return SoundBoardUI;
