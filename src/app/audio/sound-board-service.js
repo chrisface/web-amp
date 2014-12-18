@@ -5,6 +5,14 @@ angular.module('webAmp')
 
     this.audioNodes = [];
 
+    this.connectNodes = function(fromNode, toNode) {
+      fromNode.connect(toNode);
+    };
+
+    this.getAudioNodeConnections = function() {
+      return _.map(this.audioNodes, "connections");
+    };
+
     this.createGainNode = function() {
       var node = new GainAudioNode();
       this.audioNodes.push(node);

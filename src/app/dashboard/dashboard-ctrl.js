@@ -34,7 +34,7 @@ angular.module('webAmp')
     $scope.connectTwoNodes = function(){
       var first = SoundBoardService.audioNodes[0];
       var second = SoundBoardService.audioNodes[1];
-      first.connect(second);
+      SoundBoardService.connectNodes(first, second);
 
       console.log(first.connections);
       fabricCanvas.drawAudioNodeConnections();
