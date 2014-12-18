@@ -31,7 +31,10 @@ angular.module('fabric')
       var audioNodeUI = _.find(this.audioNodeUIs, function(audioNodeUI){
         return audioNodeUI.getFabricComponent() == fabricComponent;
       });
-      audioNodeUI.onMove();
+
+      if (audioNodeUI){
+        audioNodeUI.onMove();
+      }
     };
 
     return new FabricCanvas();
