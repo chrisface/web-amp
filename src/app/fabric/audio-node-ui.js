@@ -3,6 +3,7 @@ angular.module('fabric')
   function(){
 
     var AudioNodeUI = function(audioNode){
+      this.observers = {};
       this.audioNode = audioNode;
       this.radius = 40;
       this.zIndex = 2;
@@ -35,6 +36,25 @@ angular.module('fabric')
 
     AudioNodeUI.prototype.getFabricComponent = function(){
       return this.ui;
+    };
+
+    AudioNodeUI.prototype.onMove = function(){
+      this.triggerEvent("audioNodeUIMoved", this);
+    };
+
+    AudioNodeUI.prototype.on = function(eventName, callback, scope){
+      this.observers[eventName] = this.observers[eventName] || [];
+
+      this.observers[eventName].push({
+        callback: callback,
+        scope: scope
+      });
+    };
+
+    AudioNodeUI.prototype.triggerEvent = function(eventName, payload){
+      _.each(this.observers[eventName], function(observer){
+        observer.callback.apply(observer.scope, [payload]);
+      });
     };
 
     return AudioNodeUI;

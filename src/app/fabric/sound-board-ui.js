@@ -25,8 +25,10 @@ angular.module('fabric')
     SoundBoardUI.prototype.onAudioNodeAdded = function(audioNode){
       var audioNodeUI = new AudioNodeUI(audioNode);
 
+      audioNodeUI.on('audioNodeUIMoved', this.onAudioNodeUIMoved, this);
+
       this.audioNodeUis.push(audioNodeUI);
-      FabricCanvas.add(audioNodeUI);
+      FabricCanvas.addAudioNodeUI(audioNodeUI);
     };
 
     SoundBoardUI.prototype.onAudioNodeConnected = function(audioNodeConnection){
@@ -36,6 +38,10 @@ angular.module('fabric')
       var audioNodeConnectionUI = new AudioNodeConnectionUI(audioNodeConnection, fromNode, toNode);
       this.audioNodeConnectionUis.push(audioNodeConnectionUI);
       FabricCanvas.add(audioNodeConnectionUI);
+    };
+
+    SoundBoardUI.prototype.onAudioNodeUIMoved = function(audioNodeUI){
+      console.log("moved", audioNodeUI);
     };
 
     SoundBoardUI.prototype.getFabricComponent = function(){
