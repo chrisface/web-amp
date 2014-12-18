@@ -1,12 +1,13 @@
 angular.module('webAmp')
 .service('SoundBoardService', [
-  '$rootScope',
-  function($rootScope){
+  function(){
 
+    this.observers = {};
     this.audioNodes = [];
 
     this.connectNodes = function(fromNode, toNode) {
-      fromNode.connect(toNode);
+      var connectionNode = fromNode.connect(toNode);
+      this.triggerEvent('audioNodeConnected', connectionNode);
     };
 
     this.getAudioNodeConnections = function() {
@@ -19,7 +20,22 @@ angular.module('webAmp')
 
     this.addNode = function(audioNode) {
       this.audioNodes.push(audioNode);
-      $rootScope.$broadcast("audioNodeAdded", audioNode);
+      this.triggerEvent("audioNodeAdded", audioNode);
+    };
+
+    this.on = function(eventName, callback, scope){
+      this.observers[eventName] = this.observers[eventName] || [];
+
+      this.observers[eventName].push({
+        callback: callback,
+        scope: scope
+      });
+    };
+
+    this.triggerEvent = function(eventName, payload){
+      _.each(this.observers[eventName], function(observer){
+        observer.callback.apply(observer.scope, [payload]);
+      });
     };
   }
 ]);

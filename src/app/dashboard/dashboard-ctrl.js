@@ -4,7 +4,7 @@ angular.module('webAmp')
   function($scope, SoundBoardService, SoundBoardUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode){
 
     $scope.audioNodes = SoundBoardService.audioNodes;
-    $scope.soundboardUI = new SoundBoardUI();
+    $scope.soundboardUI = new SoundBoardUI(SoundBoardService);
 
     $scope.createGainNode = function() {
       var node = new DelayAudioNode();

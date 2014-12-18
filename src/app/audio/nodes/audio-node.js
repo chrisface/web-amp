@@ -29,7 +29,7 @@ angular.module('webAmp.audio.nodes')
     AudioNode.prototype.connect = function(audioNode){
       var connection = new AudioNodeConnection(this, audioNode);
       this.connections.push(connection);
-      $rootScope.$broadcast('audioNodeConnected', connection);
+      return connection;
     };
 
     AudioNode.prototype.disconnect = function(audioNode){

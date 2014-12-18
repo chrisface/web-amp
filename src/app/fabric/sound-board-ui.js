@@ -4,7 +4,7 @@ angular.module('fabric')
   function($rootScope, FabricCanvas, AudioNodeUI, AudioNodeConnectionUI){
 
     var SoundBoardUI = function(soundBoard){
-      var scope = this;
+      this.soundBoard = soundBoard;
       this.audioNodeUis = [];
       this.audioNodeConnectionUis = [];
 
@@ -16,25 +16,20 @@ angular.module('fabric')
         height: 500
       });
 
-      $rootScope.$on("audioNodeAdded", function(){
-        scope.onAudioNodeAdded.apply(scope, arguments);
-      });
-
-      $rootScope.$on("audioNodeConnected", function(){
-        scope.onAudioNodeConnected.apply(scope, arguments);
-      });
+      this.soundBoard.on("audioNodeAdded", this.onAudioNodeAdded, this);
+      this.soundBoard.on("audioNodeConnected", this.onAudioNodeConnected, this);
 
       FabricCanvas.add(this);
     };
 
-    SoundBoardUI.prototype.onAudioNodeAdded = function(event, audioNode){
+    SoundBoardUI.prototype.onAudioNodeAdded = function(audioNode){
       var audioNodeUI = new AudioNodeUI(audioNode);
 
       this.audioNodeUis.push(audioNodeUI);
       FabricCanvas.add(audioNodeUI);
     };
 
-    SoundBoardUI.prototype.onAudioNodeConnected = function(event, audioNodeConnection){
+    SoundBoardUI.prototype.onAudioNodeConnected = function(audioNodeConnection){
       var fromNode = this.getAudioNodeUIForAudioNode(audioNodeConnection.from);
       var toNode = this.getAudioNodeUIForAudioNode(audioNodeConnection.to);
 
