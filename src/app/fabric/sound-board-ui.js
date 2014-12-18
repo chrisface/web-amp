@@ -13,8 +13,8 @@ angular.module('fabric')
         stroke: 'red',
         strokeWidth: 5,
         fill: '#fff',
-        width: 500,
-        height: 500,
+        width: 1800,
+        height: 1000,
         selectable: false
       });
 
