@@ -1,10 +1,12 @@
 angular.module('webAmp')
 .controller('dashboardCtrl', [
-  '$scope', 'SoundBoardService', 'SoundBoardUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode',
-  function($scope, SoundBoardService, SoundBoardUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode){
+  '$scope', 'SoundBoardService', 'SoundBoardUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode', 'FabricCanvas',
+  function($scope, SoundBoardService, SoundBoardUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode, FabricCanvas){
 
     $scope.audioNodes = SoundBoardService.audioNodes;
     $scope.soundboardUI = new SoundBoardUI(SoundBoardService);
+    // $scope.audioNodeSelection = $scope.soundboardUI.selectedAudioNodeUI;
+    this.firstNode = null;
 
     $scope.createGainNode = function() {
       var node = new GainAudioNode();
@@ -41,10 +43,13 @@ angular.module('webAmp')
       return SoundBoardService.availableConnections(audioNode);
     };
 
-    $scope.connectTwoNodes = function(){
-      var first = SoundBoardService.audioNodes[0];
-      var second = SoundBoardService.audioNodes[1];
-      SoundBoardService.connectNodes(first, second);
+    $scope.connectNode = function(){
+      this.firstNode = $scope.soundboardUI.selectedAudioNodeUI;
+      console.log(this.firstNode);
+
+      //clear selection
+      FabricCanvas.clearSelections();
+      console.log(this.firstNode);
     };
   }
 ]);;

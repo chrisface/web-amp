@@ -7,13 +7,15 @@ angular.module('fabric')
       this.soundBoard = soundBoard;
       this.audioNodeUis = [];
       this.audioNodeConnectionUis = [];
+      this.selectedAudioNodeUI = null;
 
       this.backround = new fabric.Rect({
         stroke: 'red',
         strokeWidth: 5,
         fill: '#fff',
         width: 500,
-        height: 500
+        height: 500,
+        selectable: false
       });
 
       this.soundBoard.on("audioNodeAdded", this.onAudioNodeAdded, this);
@@ -26,6 +28,8 @@ angular.module('fabric')
       var audioNodeUI = new AudioNodeUI(audioNode);
 
       audioNodeUI.on('audioNodeUIMoved', this.onAudioNodeUIMoved, this);
+      audioNodeUI.on("audioNodeUISelected", this.onAudioNodeUISelected, this);
+      audioNodeUI.on("audioNodeUIDeselected", this.onAudioNodeUIDeselected, this);
 
       this.audioNodeUis.push(audioNodeUI);
       FabricCanvas.addAudioNodeUI(audioNodeUI);
@@ -56,6 +60,16 @@ angular.module('fabric')
       _.each(connectionsTo, function(connection){
         connection.setToPoint(audioNodeUI);
       });
+    };
+
+    SoundBoardUI.prototype.onAudioNodeUISelected = function(audioNodeUI){
+      this.selectedAudioNodeUI = audioNodeUI;
+      $rootScope.$digest();
+    };
+
+    SoundBoardUI.prototype.onAudioNodeUIDeselected = function(audioNodeUI){
+      this.selectedAudioNodeUI = null;
+      $rootScope.$digest();
     };
 
     SoundBoardUI.prototype.getFabricComponent = function(){

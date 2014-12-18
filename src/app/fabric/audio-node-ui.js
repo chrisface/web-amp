@@ -30,7 +30,7 @@ angular.module('fabric')
       });
 
       this.ui.hasControls = false;
-      this.ui.hasBorders = false;
+      // this.ui.hasBorders = false;
 
     };
 
@@ -40,6 +40,10 @@ angular.module('fabric')
 
     AudioNodeUI.prototype.onMove = function(){
       this.triggerEvent("audioNodeUIMoved", this);
+    };
+
+    AudioNodeUI.prototype.onSelection = function(){
+      this.triggerEvent("audioNodeUISelected", this);
     };
 
     AudioNodeUI.prototype.on = function(eventName, callback, scope){
@@ -56,6 +60,10 @@ angular.module('fabric')
         observer.callback.apply(observer.scope, [payload]);
       });
     };
+
+    AudioNodeUI.prototype.deselected = function(){
+      this.triggerEvent("audioNodeUIDeselected", this);
+    }
 
     return AudioNodeUI;
   }

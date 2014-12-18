@@ -14,14 +14,8 @@
     <button ng-click="createDelayNode()">Create Delay Node</button>
     <button ng-click="createGainNode()">Create Gain Node</button>
     <button ng-click="createOutputNode()">Create Output Node</button>
-    <button ng-click="connectTwoNodes()">Connect Two Nodes</button>
-
-    <ul>
-      <li ng-repeat="audioNode in audioNodes">
-        {{audioNode.name}} Connected to {{audioNode.connectedNode.name}}
-
-      </li>
-    </ul>
+    <br>
+    <button ng-click="connectNode()" ng-disabled="!soundboardUI.selectedAudioNodeUI">Connect to</button>
 
     <canvas id ="c" width=800 height=800 style='width:800px;height:800px'></canvas>
 
