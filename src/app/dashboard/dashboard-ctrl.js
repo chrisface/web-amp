@@ -9,29 +9,34 @@ angular.module('webAmp')
 
     $scope.createGainNode = function() {
       var audioNode = SoundBoardService.createGainNode();
-      fabricCanvas.add(new AudioNodeUI(audioNode));
+      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
     };
 
     $scope.createDelayNode = function() {
       var audioNode = SoundBoardService.createDelayNode();
-      fabricCanvas.add(new AudioNodeUI(audioNode));
+      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
     };
 
     $scope.createInputNode = function() {
       var audioNode = SoundBoardService.createInputNode();
-      fabricCanvas.add(new AudioNodeUI(audioNode));
+      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
     };
 
     $scope.createOutputNode = function() {
       var audioNode = SoundBoardService.createOutputNode();
-      fabricCanvas.add(new AudioNodeUI(audioNode));
+      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
     };
 
     $scope.availableConnections = function(audioNode) {
       return SoundBoardService.availableConnections(audioNode);
     };
 
-
+    $scope.connectTwoNodes = function(){
+      var first = SoundBoardService.audioNodes[0];
+      var second = SoundBoardService.audioNodes[1];
+      first.connect(second);
+      fabricCanvas.drawAudioNodeConnections();
+    };
 
   }
 ]);;
