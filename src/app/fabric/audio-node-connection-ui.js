@@ -28,6 +28,21 @@ angular.module('fabric')
       this.ui.hasBorders = false;
     };
 
+
+    AudioNodeConnectionUI.prototype.setFromPoint = function(audioNodeUI){
+      var newX = audioNodeUI.getFabricComponent().getCenterPoint().x;
+      var newY = audioNodeUI.getFabricComponent().getCenterPoint().y;
+
+      this.ui.set({x1: newX, y1: newY});
+    };
+
+    AudioNodeConnectionUI.prototype.setToPoint = function(audioNodeUI){
+      var newX = audioNodeUI.getFabricComponent().getCenterPoint().x;
+      var newY = audioNodeUI.getFabricComponent().getCenterPoint().y;
+
+      this.ui.set({x2: newX, y2: newY});
+    };
+
     AudioNodeConnectionUI.prototype.getFabricComponent = function(){
       return this.ui;
     };

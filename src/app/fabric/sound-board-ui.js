@@ -41,7 +41,21 @@ angular.module('fabric')
     };
 
     SoundBoardUI.prototype.onAudioNodeUIMoved = function(audioNodeUI){
-      console.log("moved", audioNodeUI);
+      var connectionsFrom = _.select(this.audioNodeConnectionUis, function(audioNodeConnectionUI) {
+        return audioNodeConnectionUI.fromAudioNodeUI == audioNodeUI;
+      });
+
+      var connectionsTo = _.select(this.audioNodeConnectionUis, function(audioNodeConnectionUI) {
+        return audioNodeConnectionUI.toAudioNodeUI == audioNodeUI;
+      });
+
+      _.each(connectionsFrom, function(connection){
+        connection.setFromPoint(audioNodeUI);
+      });
+
+      _.each(connectionsTo, function(connection){
+        connection.setToPoint(audioNodeUI);
+      });
     };
 
     SoundBoardUI.prototype.getFabricComponent = function(){
