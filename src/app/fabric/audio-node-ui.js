@@ -4,12 +4,16 @@ angular.module('fabric')
 
     var AudioNodeUI = function(audioNode){
       this.audioNode = audioNode;
+      this.radius = 40;
+      this.zIndex = 2;
 
       this.backround = new fabric.Circle({
         originX: 'center',
         originY: 'center',
+        strokeWidth: 5,
         fill: 'green',
-        radius: 60
+        stroke: 'grey',
+        radius: this.radius
       });
 
       this.text = new fabric.Text(this.audioNode.name, {
@@ -23,6 +27,9 @@ angular.module('fabric')
         left: 50,
         top: 50
       });
+
+      this.ui.hasControls = false;
+      this.ui.hasBorders = false;
 
     };
 

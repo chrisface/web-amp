@@ -8,7 +8,9 @@ angular.module('fabric')
     };
 
     FabricCanvas.prototype.add = function(uiComponent){
-      this.canvas.add(uiComponent.getFabricComponent());
+      var fabricComponent = uiComponent.getFabricComponent();
+      this.canvas.add(fabricComponent);
+      this.canvas.moveTo(fabricComponent, uiComponent.zIndex);
     };
 
     return new FabricCanvas();

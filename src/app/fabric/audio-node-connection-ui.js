@@ -6,12 +6,26 @@ angular.module('fabric')
       this.audioNode = audioNode;
       this.fromAudioNodeUI = fromAudioNodeUI;
       this.toAudioNodeUI = toAudioNodeUI;
+      this.zIndex = 1;
 
 
       var fromPoint = this.fromAudioNodeUI.getFabricComponent().getCenterPoint();
       var toPoint =  this.toAudioNodeUI.getFabricComponent().getCenterPoint();
 
-      this.ui = new fabric.Line([fromPoint.x, fromPoint.y, toPoint.x, toPoint.y], {stroke: 'red'});
+      this.ui = new fabric.Line([
+        fromPoint.x,
+        fromPoint.y,
+        toPoint.x,
+        toPoint.y
+        ],
+        {
+          stroke: 'red',
+          strokeWidth: 5,
+          selectable: false
+        });
+
+      this.ui.hasControls = false;
+      this.ui.hasBorders = false;
     };
 
     AudioNodeConnectionUI.prototype.getFabricComponent = function(){
