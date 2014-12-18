@@ -68,8 +68,13 @@ angular.module('fabric')
     };
 
     SoundBoardUI.prototype.onAudioNodeUIDeselected = function(audioNodeUI){
+      console.log("Deslected a node");
       this.selectedAudioNodeUI = null;
-      $rootScope.$digest();
+
+      // Don't trigger a digest if one is already in progress
+      if(!$rootScope.$$phase) {
+        $rootScope.$digest();
+      }
     };
 
     SoundBoardUI.prototype.getFabricComponent = function(){

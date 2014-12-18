@@ -63,7 +63,7 @@ angular.module('fabric')
     };
 
     FabricCanvas.prototype.clearSelections = function(){
-      this.canvas.deactivateAll().renderAll();
+      this.canvas.deactivateAllWithDispatch().renderAll();
     };
 
     return new FabricCanvas();

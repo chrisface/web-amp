@@ -7,6 +7,7 @@ angular.module('webAmp')
     $scope.soundboardUI = new SoundBoardUI(SoundBoardService);
     // $scope.audioNodeSelection = $scope.soundboardUI.selectedAudioNodeUI;
     this.firstNode = null;
+    this.secondNode = null;
 
     $scope.createGainNode = function() {
       var node = new GainAudioNode();
@@ -44,12 +45,22 @@ angular.module('webAmp')
     };
 
     $scope.connectNode = function(){
-      this.firstNode = $scope.soundboardUI.selectedAudioNodeUI;
-      console.log(this.firstNode);
 
-      //clear selection
-      FabricCanvas.clearSelections();
-      console.log(this.firstNode);
+      if (!this.firstNode){
+        this.firstNode = $scope.soundboardUI.selectedAudioNodeUI;
+      }
+      else{
+        if ($scope.soundboardUI.selectedAudioNodeUI != this.firstNode){
+          this.secondNode = $scope.soundboardUI.selectedAudioNodeUI;
+          SoundBoardService.connectNodes(this.firstNode.audioNode, this.secondNode.audioNode);
+          this.firstNode = null;
+          this.secondNode = null;
+        }
+      }
+
+      console.log(this.firstNode, this.secondNode);
+
+
     };
   }
 ]);;
