@@ -1,30 +1,44 @@
 angular.module('webAmp')
 .controller('dashboardCtrl', [
-  '$scope', 'SoundBoardService', 'fabricCanvas', 'AudioNodeUI',
-  function($scope, SoundBoardService, fabricCanvas, AudioNodeUI){
+  '$scope', 'SoundBoardService', 'fabricCanvas', 'AudioNodeUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode',
+  function($scope, SoundBoardService, fabricCanvas, AudioNodeUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode){
 
     $scope.audioNodes = SoundBoardService.audioNodes;
 
-    SoundBoardService;
-
     $scope.createGainNode = function() {
-      var audioNode = SoundBoardService.createGainNode();
-      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
+      var node = new DelayAudioNode();
+      SoundBoardService.addNode(node);
+      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.createDelayNode = function() {
-      var audioNode = SoundBoardService.createDelayNode();
-      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
+      var node = new DelayAudioNode();
+      SoundBoardService.addNode(node);
+      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.createInputNode = function() {
-      var audioNode = SoundBoardService.createInputNode();
-      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
+      var node = new InputAudioNode();
+      this.audioNodes.push(node);
+
+      node.captureInput(
+        function(node){
+          console.log("Successfully captured input for:", node.name);
+        },
+        function(error){
+          console.log("Failed to capture input for:", error.name);
+        },
+        this
+      );
+
+      SoundBoardService.addNode(node);
+      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.createOutputNode = function() {
-      var audioNode = SoundBoardService.createOutputNode();
-      fabricCanvas.addAudioNode(new AudioNodeUI(audioNode));
+      var node = new OutputAudioNode();
+      SoundBoardService.addNode(node);
+      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.availableConnections = function(audioNode) {
