@@ -1,6 +1,7 @@
 angular.module('webAmp')
 .service('SoundBoardService', [
-  function(){
+  '$rootScope',
+  function($rootScope){
 
     this.audioNodes = [];
 
@@ -18,6 +19,7 @@ angular.module('webAmp')
 
     this.addNode = function(audioNode) {
       this.audioNodes.push(audioNode);
+      $rootScope.$broadcast("audioNodeAdded", audioNode);
     };
   }
 ]);

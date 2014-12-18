@@ -1,20 +1,19 @@
 angular.module('webAmp')
 .controller('dashboardCtrl', [
-  '$scope', 'SoundBoardService', 'fabricCanvas', 'AudioNodeUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode',
-  function($scope, SoundBoardService, fabricCanvas, AudioNodeUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode){
+  '$scope', 'SoundBoardService', 'SoundBoardUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode',
+  function($scope, SoundBoardService, SoundBoardUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode){
 
     $scope.audioNodes = SoundBoardService.audioNodes;
+    $scope.soundboardUI = new SoundBoardUI();
 
     $scope.createGainNode = function() {
       var node = new DelayAudioNode();
       SoundBoardService.addNode(node);
-      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.createDelayNode = function() {
       var node = new DelayAudioNode();
       SoundBoardService.addNode(node);
-      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.createInputNode = function() {
@@ -32,13 +31,11 @@ angular.module('webAmp')
       );
 
       SoundBoardService.addNode(node);
-      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.createOutputNode = function() {
       var node = new OutputAudioNode();
       SoundBoardService.addNode(node);
-      fabricCanvas.addAudioNode(new AudioNodeUI(node));
     };
 
     $scope.availableConnections = function(audioNode) {
@@ -51,7 +48,7 @@ angular.module('webAmp')
       SoundBoardService.connectNodes(first, second);
 
       console.log(first.connections);
-      fabricCanvas.drawAudioNodeConnections();
+      $scope.soundboardUI.drawAudioNodeConnections();
     };
 
   }

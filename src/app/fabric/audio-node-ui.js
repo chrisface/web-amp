@@ -1,7 +1,6 @@
 angular.module('fabric')
 .factory('AudioNodeUI', [
-  '$rootScope', 'audioContext',
-  function($scope, audioContext){
+  function(){
 
     var AudioNodeUI = function(audioNode){
       this.audioNode = audioNode;
@@ -27,7 +26,7 @@ angular.module('fabric')
 
     };
 
-    AudioNodeUI.prototype.getUI = function(){
+    AudioNodeUI.prototype.getFabricComponent = function(){
       return this.ui;
     };
 
