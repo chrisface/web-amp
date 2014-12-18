@@ -17,7 +17,8 @@
     <br>
     <button ng-click="connectNode()" ng-disabled="!soundboardUI.selectedAudioNodeUI">Connect to</button>
 
-    <canvas id ="c" width=2000 height=1200 style='width:800px;height:800px'></canvas>
+    <canvas id ="c" width=2000 height=1010></canvas>
+    Value: <input type="text" ng-disabled="!soundboardUI.selectedAudioNodeUI" ng-model="soundboardUI.selectedAudioNodeUI.audioNode.value" ng-model-options="{ getterSetter: true, debounce: {'default': 1000, 'blur': 0} }"></input>
 
     </div>
 
