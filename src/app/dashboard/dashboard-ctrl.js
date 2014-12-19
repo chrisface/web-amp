@@ -1,7 +1,7 @@
 angular.module('webAmp')
 .controller('dashboardCtrl', [
-  '$scope', 'SoundBoardService', 'SoundBoardUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode', 'FabricCanvas',
-  function($scope, SoundBoardService, SoundBoardUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode, FabricCanvas){
+  '$scope', 'SoundBoardService', 'SoundBoardUI', 'OutputAudioNode', 'GainAudioNode', 'InputAudioNode', 'DelayAudioNode', 'DriveAudioNode', 'FabricCanvas',
+  function($scope, SoundBoardService, SoundBoardUI, OutputAudioNode, GainAudioNode, InputAudioNode, DelayAudioNode, DriveAudioNode, FabricCanvas){
 
     $scope.audioNodes = SoundBoardService.audioNodes;
     $scope.soundboardUI = new SoundBoardUI(SoundBoardService);
@@ -16,6 +16,12 @@ angular.module('webAmp')
 
     $scope.createDelayNode = function() {
       var node = new DelayAudioNode();
+      SoundBoardService.addNode(node);
+    };
+
+
+    $scope.createDriveNode = function() {
+      var node = new DriveAudioNode();
       SoundBoardService.addNode(node);
     };
 
