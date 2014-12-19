@@ -5,7 +5,7 @@ angular.module('webAmp.audio.nodes')
 
     var DriveAudioNode = function(){
       // Maximum delay time
-      this.value = 400;
+      this._value = 400;
       this.node = audioContext.createWaveShaper();
       this.node.oversample = '4x';
       this.node.curve = this.createWSCurve();
@@ -18,17 +18,26 @@ angular.module('webAmp.audio.nodes')
 
     DriveAudioNode.prototype = new AudioNode();
 
-    DriveAudioNode.prototype.setTheValue = function(value){
-      this.value = value;
-      this.node.curve = this.createWSCurve();
-    };
+    DriveAudioNode.prototype.value = function(newValue) {
+      if (angular.isDefined(newValue)) {
+        this._value = newValue;
+        this.node.curve = this.createWSCurve();
+      }
+      return this._value;
+    }
 
-    DriveAudioNode.prototype.getTheValue = function(value){
-      return this.value;
-    };
+
+    // DriveAudioNode.prototype.setTheValue = function(value){
+    //   this.value = value;
+    //   this.node.curve = this.createWSCurve();
+    // };
+
+    // DriveAudioNode.prototype.getTheValue = function(value){
+    //   return this.value;
+    // };
 
     DriveAudioNode.prototype.createWSCurve = function() {
-      var k = this.value;
+      var k = this._value;
       var n_samples = 22050;
       var wsCurve = new Float32Array(n_samples);
       var deg = Math.PI / 180;
