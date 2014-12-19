@@ -6,7 +6,7 @@ angular.module('fabric')
       this.audioNode = audioNode;
       this.fromAudioNodeUI = fromAudioNodeUI;
       this.toAudioNodeUI = toAudioNodeUI;
-      this.zIndex = 1;
+      this.zIndex = 3;
 
 
       var fromPoint = this.fromAudioNodeUI.getFabricComponent().getCenterPoint();
@@ -28,41 +28,88 @@ angular.module('fabric')
 
       this.ui.hasControls = false;
       this.ui.hasBorders = false;
-
-      this.updateGradient();
     };
 
 
     AudioNodeConnectionUI.prototype.setFromPoint = function(audioNodeUI){
-      var newX = audioNodeUI.getFabricComponent().getCenterPoint().x;
-      var newY = audioNodeUI.getFabricComponent().getCenterPoint().y;
-
-      this.ui.set({x1: newX, y1: newY});
-
-      this.updateGradient();
+      var intersectionPointTo = this.intersectionPoint(audioNodeUI, this.toAudioNodeUI);
+      this.ui.set({x1: intersectionPointTo.x, y1: intersectionPointTo.y});
     };
 
     AudioNodeConnectionUI.prototype.setToPoint = function(audioNodeUI){
-      var newX = audioNodeUI.getFabricComponent().getCenterPoint().x;
-      var newY = audioNodeUI.getFabricComponent().getCenterPoint().y;
-
-      this.ui.set({x2: newX, y2: newY});
-
-      this.updateGradient();
+      var intersectionPointFrom = this.intersectionPoint(this.fromAudioNodeUI, audioNodeUI);
+      this.ui.set({x2: intersectionPointFrom.x, y2: intersectionPointFrom.y});
     };
 
-     AudioNodeConnectionUI.prototype.updateGradient = function(){
-        // this.ui.setGradient('stroke', {
-        //   x1: 0,
-        //   x2: this.ui.y2 - this.ui.y1,
-        //   y1: 0,
-        //   y2: this.ui.x2 - this.ui.x1,
-        //   colorStops: {
-        //     0: 'blue',
-        //     1: 'red'
-        //   }
-        // });
-     }
+    AudioNodeConnectionUI.prototype.intersectionPoint = function(fromAudioNodeUI, toAudioNodeUI){
+      var angle = this.calculateLineAngle(fromAudioNodeUI, toAudioNodeUI);
+
+      var oppositeLength = Math.sin(angle) * 40;
+      var adjacentLength = Math.cos(angle) * 40;
+
+      // console.log("opposite: ", oppositeLength);
+      // console.log("adjacent: ", adjacentLength);
+
+
+      var oldX = toAudioNodeUI.getFabricComponent().getCenterPoint().x;
+      var newX = oldX + adjacentLength;
+
+      var oldY = toAudioNodeUI.getFabricComponent().getCenterPoint().y;
+      var newY = oldY - oppositeLength;
+
+      return {
+        x: newX,
+        y: newY
+      };
+    };
+
+    AudioNodeConnectionUI.prototype.calculateLineAngle = function(fromAudioNodeUI, toAudioNodeUI){
+
+      var x = fromAudioNodeUI.getFabricComponent().getCenterPoint().x - toAudioNodeUI.getFabricComponent().getCenterPoint().x;
+      var y = fromAudioNodeUI.getFabricComponent().getCenterPoint().y - toAudioNodeUI.getFabricComponent().getCenterPoint().y;
+
+      var angle;
+
+      if (x == 0) {
+        if (y == 0) {
+          angle = 0;
+        }
+        else if (y > 0) {
+          angle = Math.PI / 2;
+        }
+        else {
+          angle = Math.PI * 3 / 2;
+        }
+      }
+      else if (y == 0) {
+        if (x > 0) {
+          angle = 0;
+        }
+        else {
+          angle = Math.PI;
+        }
+      }
+      else {
+        if (x < 0) {
+          angle = Math.atan(y / x) + Math.PI;
+        }
+        else if ( y < 0) {
+          angle = Math.atan(y / x) + (2 * Math.PI);
+        }
+        else {
+          angle = Math.atan(y / x);
+        }
+      }
+
+      // Convert to degrees
+      // angle = (angle * 180) / Math.PI;
+
+      // Convert to relative angle
+      angle = (Math.PI * 2) - angle;
+      console.log((angle * 180) / Math.PI);
+
+      return angle;
+    };
 
     AudioNodeConnectionUI.prototype.getFabricComponent = function(){
       return this.ui;
