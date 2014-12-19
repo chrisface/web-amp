@@ -1,6 +1,7 @@
 angular.module('fabric')
 .factory('AudioNodeConnectionUI', [
-  function(){
+  'FabricCanvas',
+  function(FabricCanvas){
 
     var AudioNodeConnectionUI = function(audioNode, fromAudioNodeUI, toAudioNodeUI){
       this.audioNode = audioNode;
@@ -49,6 +50,10 @@ angular.module('fabric')
       this.ui.set({x2: newX, y2: newY});
 
       this.updateGradient();
+    };
+
+    AudioNodeConnectionUI.prototype.remove = function(){
+      FabricCanvas.remove(this);
     };
 
      AudioNodeConnectionUI.prototype.updateGradient = function(){

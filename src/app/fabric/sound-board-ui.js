@@ -30,6 +30,7 @@ angular.module('fabric')
       audioNodeUI.on('audioNodeUIMoved', this.onAudioNodeUIMoved, this);
       audioNodeUI.on("audioNodeUISelected", this.onAudioNodeUISelected, this);
       audioNodeUI.on("audioNodeUIDeselected", this.onAudioNodeUIDeselected, this);
+      audioNodeUI.on("audioNodeUIDisconnected", this.onAudioNodeUIDisconnected, this);
 
       this.audioNodeUis.push(audioNodeUI);
       FabricCanvas.addAudioNodeUI(audioNodeUI);
@@ -76,6 +77,26 @@ angular.module('fabric')
         $rootScope.$digest();
       }
     };
+
+    SoundBoardUI.prototype.onAudioNodeUIDisconnected = function(audioNodeUI){
+      console.log("Disconnected a node");
+
+
+      var connectionsToRemove = _.find(this.audioNodeConnectionUis, {'fromAudioNodeUI': audioNodeUI});
+
+      _.each(connectionsToRemove, function(connectionUI){
+        connectionUI.remove();
+      });
+
+      _.without(this.audioNodeConnectionUis, connectionsToRemove);
+
+
+      // Don't trigger a digest if one is already in progress
+      if(!$rootScope.$$phase) {
+        $rootScope.$digest();
+      }
+    };
+
 
     SoundBoardUI.prototype.getFabricComponent = function(){
       return this.backround;

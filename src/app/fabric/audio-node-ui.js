@@ -30,7 +30,8 @@ angular.module('fabric')
       });
 
       this.ui.hasControls = false;
-      // this.ui.hasBorders = false;
+
+      this.audioNode.on("disconnect", this.onDisconnect, this);
 
     };
 
@@ -63,7 +64,11 @@ angular.module('fabric')
 
     AudioNodeUI.prototype.deselected = function(){
       this.triggerEvent("audioNodeUIDeselected", this);
-    }
+    };
+
+    AudioNodeUI.prototype.onDisconnect = function(){
+      this.triggerEvent("audioNodeUIDisconnected", this);
+    };
 
     return AudioNodeUI;
   }

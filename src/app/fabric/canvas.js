@@ -36,6 +36,11 @@ angular.module('fabric')
       this.canvas.moveTo(fabricComponent, uiComponent.zIndex);
     };
 
+    FabricCanvas.prototype.remove = function(uiComponent){
+      var fabricComponent = uiComponent.getFabricComponent();
+      this.canvas.remove(fabricComponent);
+    };
+
     FabricCanvas.prototype.onObjectMove = function(fabricComponent){
       var audioNodeUI = _.find(this.audioNodeUIs, function(audioNodeUI){
         return audioNodeUI.getFabricComponent() == fabricComponent;

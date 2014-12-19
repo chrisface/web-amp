@@ -65,8 +65,13 @@ angular.module('webAmp')
       }
 
       console.log(this.firstNode, this.secondNode);
+    };
 
-
+    $scope.disconnectNode = function(){
+      var uiNode = $scope.soundboardUI.selectedAudioNodeUI;
+      if(uiNode) {
+        uiNode.audioNode.disconnect();
+      }
     };
   }
 ]);;
